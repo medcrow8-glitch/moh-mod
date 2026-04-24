@@ -1,56 +1,668 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
-  <meta charset="UTF-8" />
-  <title>Moh Mods</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<title>Mods Hub</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body {
+  margin: 0;
+  background: #0f172a;
+  color: #e5e7eb;
+  font-family: system-ui, sans-serif;
+  direction: rtl;
+}
+
+header {
+  background: #1e293b;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #334155;
+}
+
+/* شعار + اسم الموقع */
+.logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.logo-star {
+  width: 26px;
+  height: 26px;
+}
+
+.logo-hs-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.logo-hs {
+  width: 28px;
+  height: 28px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 22px;
+  color: #f97316;
+}
+
+/* أزرار الهيدر */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.upload-btn {
+  background: #f97316;
+  padding: 8px 16px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  border: none;
+  font-size: 14px;
+}
+
+.settings-icon {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #f97316;
+  padding: 4px;
+  transition: 0.2s;
+}
+
+.settings-icon:hover {
+  transform: rotate(20deg);
+  color: #fb923c;
+}
+
+/* صندوق الإعدادات */
+.settings-box {
+  position: absolute;
+  top: 60px;
+  left: 20px;
+  background: #1e293b;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #334155;
+  width: 190px;
+  z-index: 100;
+}
+
+.settings-box h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: #f97316;
+  font-size: 16px;
+}
+
+.settings-box button {
+  width: 100%;
+  padding: 8px;
+  margin-top: 6px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background: #0f172a;
+  color: #e5e7eb;
+  font-size: 14px;
+}
+
+.settings-box button:hover {
+  background: #111827;
+}
+
+.hidden {
+  display: none;
+}
+
+/* المحتوى */
+.container {
+  display: flex;
+  padding: 20px;
+  gap: 20px;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  background: #1e293b;
+  padding: 15px;
+  border-radius: 10px;
+  height: fit-content;
+  border: 1px solid #334155;
+}
+
+.sidebar h3 {
+  margin-top: 0;
+  color: #f97316;
+  font-size: 18px;
+}
+
+.sidebar label {
+  font-size: 13px;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.sidebar input, .sidebar select {
+  width: 100%;
+  padding: 9px;
+  border-radius: 8px;
+  border: none;
+  margin-bottom: 12px;
+  background: #0f172a;
+  color: white;
+  font-size: 13px;
+}
+
+.radio-group {
+  margin-bottom: 12px;
+  font-size: 13px;
+}
+
+.radio-group label {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.filter-btn {
+  width: 100%;
+  background: #f97316;
+  padding: 8px 0;
+  border-radius: 8px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Mods List */
+.mods-list {
+  flex: 1;
+}
+
+.mod-card {
+  background: #1e293b;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #334155;
+  display: flex;
+  gap: 15px;
+}
+
+.mod-card img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.mod-info {
+  flex: 1;
+}
+
+.mod-info h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #f97316;
+}
+
+.badges {
+  margin: 8px 0;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 9px;
+  border-radius: 6px;
+  font-size: 11px;
+  margin-right: 4px;
+}
+
+.badge-forge { background: #ef4444; }
+.badge-fabric { background: #3b82f6; }
+.badge-version { background: #22c55e; }
+
+.mod-meta {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 4px;
+}
+
+.download-btn {
+  display: inline-block;
+  margin-top: 8px;
+  background: #f97316;
+  padding: 7px 13px;
+  border-radius: 6px;
+  color: white;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+/* Upload Page */
+#uploadPage {
+  display: none;
+  padding: 20px;
+}
+
+.upload-box {
+  max-width: 600px;
+  margin: auto;
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #334155;
+}
+
+.upload-box h2 {
+  margin-top: 0;
+  color: #f97316;
+}
+
+.upload-box label {
+  display: block;
+  margin-top: 12px;
+  margin-bottom: 4px;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.upload-box input, .upload-box textarea, .upload-box select {
+  width: 100%;
+  padding: 9px;
+  border-radius: 8px;
+  border: none;
+  background: #0f172a;
+  color: white;
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+.upload-box textarea {
+  resize: vertical;
+}
+
+.upload-box button {
+  width: 100%;
+  padding: 11px;
+  background: #f97316;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+/* رسالة لا يوجد مودات */
+.empty-msg {
+  font-size: 14px;
+  color: #9ca3af;
+}
+</style>
 </head>
 
 <body>
-  <header class="navbar">
-    <div class="logo">Moh Mods</div>
-    <nav>
-      <a href="#home">الرئيسية</a>
-      <a href="#mods">المودات</a>
-      <a href="#contact">تواصل</a>
-    </nav>
-  </header>
 
-  <section id="home" class="hero">
-    <h1>مرحبًا بك في Moh Mods</h1>
-    <p>منصة بسيطة لعرض مودات ماينكرافت وروابط تحميلها.</p>
-  </section>
+<header>
+  <!-- الشعار + الاسم -->
+  <div class="logo-wrap">
+    <div class="logo-stack">
+      <!-- نجمة Outline فوق -->
+      <svg class="logo-star" viewBox="0 0 100 100">
+        <polygon
+          points="50,5 61,35 94,35 67,54 78,85 50,66 22,85 33,54 6,35 39,35"
+          fill="none"
+          stroke="#f97316"
+          stroke-width="5"
+          stroke-linejoin="round"
+        />
+      </svg>
 
-  <section id="mods" class="section">
-    <h2>أحدث المودات</h2>
-
-    <div class="mods-grid">
-
-      <article class="mod-card">
-        <h3>Mod Name 1</h3>
-        <p>وصف قصير عن المود.</p>
-        <p class="meta">إصدار: 1.20 • نوع: Fabric</p>
-        <a href="#" class="btn small">تحميل</a>
-      </article>
-
-      <article class="mod-card">
-        <h3>Mod Name 2</h3>
-        <p>وصف قصير عن المود.</p>
-        <p class="meta">إصدار: 1.19 • نوع: Forge</p>
-        <a href="#" class="btn small">تحميل</a>
-      </article>
-
+      <div class="logo-hs-wrap">
+        <h1 id="siteTitle">Mods Hub</h1>
+        <!-- مطرقة ومنجل Outline جنب الاسم -->
+        <svg class="logo-hs" viewBox="0 0 100 100">
+          <!-- منجل (قوس) -->
+          <path
+            d="M70 20
+               A30 30 0 0 0 30 60
+               A18 18 0 0 0 55 35"
+            fill="none"
+            stroke="#f97316"
+            stroke-width="5"
+            stroke-linecap="round"
+          />
+          <!-- مقبض المطرقة -->
+          <line
+            x1="25" y1="25"
+            x2="55" y2="55"
+            stroke="#f97316"
+            stroke-width="5"
+            stroke-linecap="round"
+          />
+          <!-- رأس المطرقة -->
+          <rect
+            x="15" y="18"
+            width="18" height="8"
+            fill="none"
+            stroke="#f97316"
+            stroke-width="4"
+            rx="1" ry="1"
+          />
+        </svg>
+      </div>
     </div>
-  </section>
+  </div>
 
-  <section id="contact" class="section">
-    <h2>تواصل معنا</h2>
-    <p>للاقتراحات أو إضافة مود جديد:</p>
-    <p>البريد: <strong>youremail@example.com</strong></p>
-  </section>
+  <!-- أزرار الهيدر -->
+  <div class="header-actions">
+    <button class="upload-btn" id="uploadBtn" onclick="showUpload()">رفع مود</button>
+    <button class="settings-icon" onclick="toggleSettings()">⚙️</button>
+  </div>
+</header>
 
-  <footer class="footer">
-    <p>© 2026 Moh Mods</p>
-  </footer>
+<!-- صندوق الإعدادات -->
+<div id="settingsBox" class="settings-box hidden">
+  <h3 id="settingsTitle">الإعدادات</h3>
+  <p id="settingsLangLabel" style="margin:0 0 6px 0;font-size:13px;">اختر اللغة:</p>
+  <button onclick="setLang('ar')">🇸🇦 العربية</button>
+  <button onclick="setLang('en')">🇺🇸 English</button>
+</div>
+
+<!-- الصفحة الرئيسية -->
+<div id="mainPage">
+  <div class="container">
+
+    <!-- Sidebar Filters -->
+    <div class="sidebar">
+      <h3 id="filtersTitle">الفلاتر</h3>
+
+      <label id="searchLabel">بحث بالاسم أو الوصف</label>
+      <input type="text" id="searchBox" placeholder="بحث...">
+
+      <label id="versionLabel">إصدار اللعبة</label>
+      <select id="versionFilter">
+        <option value="">كل الإصدارات</option>
+        <option>1.21.1</option>
+        <option>1.21</option>
+        <option>1.20.6</option>
+        <option>1.20.4</option>
+        <option>1.20.2</option>
+        <option>1.20.1</option>
+        <option>1.19.4</option>
+        <option>1.19.2</option>
+        <option>1.18.2</option>
+        <option>1.17.1</option>
+        <option>1.16.5</option>
+        <option>1.12.2</option>
+        <option>1.8.9</option>
+        <option>1.7.10</option>
+      </select>
+
+      <label id="loaderLabel">نوع المود</label>
+      <div class="radio-group" id="loaderGroup">
+        <label><input type="radio" name="loader" value="" checked> الكل</label>
+        <label><input type="radio" name="loader" value="Forge"> Forge</label>
+        <label><input type="radio" name="loader" value="Fabric"> Fabric</label>
+      </div>
+
+      <button class="filter-btn" id="applyFiltersBtn" onclick="applyFilters()">تطبيق الفلاتر</button>
+    </div>
+
+    <!-- Mods List -->
+    <div class="mods-list" id="modsList"></div>
+
+  </div>
+</div>
+
+<!-- صفحة الرفع -->
+<div id="uploadPage">
+  <div class="upload-box">
+    <h2 id="uploadTitle">رفع مود جديد</h2>
+
+    <label id="modNameLabel">اسم المود</label>
+    <input id="modName">
+
+    <label id="modFileLabel">رابط ملف المود (URL)</label>
+    <input id="modFileUrl" placeholder="مثال: https://...">
+
+    <label id="modImageLabel">رابط صورة المود (URL)</label>
+    <input id="modImageUrl" placeholder="مثال: https://...">
+
+    <label id="modDescLabel">وصف المود</label>
+    <textarea id="modDesc" rows="3"></textarea>
+
+    <label id="modVersionLabel">إصدار اللعبة</label>
+    <select id="modVersion">
+      <option>1.21.1</option>
+      <option>1.21</option>
+      <option>1.20.6</option>
+      <option>1.20.4</option>
+      <option>1.20.2</option>
+      <option>1.20.1</option>
+      <option>1.19.4</option>
+      <option>1.19.2</option>
+      <option>1.18.2</option>
+      <option>1.17.1</option>
+      <option>1.16.5</option>
+      <option>1.12.2</option>
+      <option>1.8.9</option>
+      <option>1.7.10</option>
+    </select>
+
+    <label id="modLoaderLabel">نوع المود</label>
+    <select id="modLoader">
+      <option>Forge</option>
+      <option>Fabric</option>
+    </select>
+
+    <button id="publishBtn" onclick="publishMod()">نشر المود</button>
+    <button style="margin-top:6px;background:#4b5563;" onclick="showMain()" id="backBtn">رجوع</button>
+  </div>
+</div>
+
+<script>
+/* حالة اللغة */
+let currentLang = localStorage.getItem("lang") || "ar";
+
+/* فتح/إغلاق الإعدادات */
+function toggleSettings() {
+  document.getElementById("settingsBox").classList.toggle("hidden");
+}
+
+/* تغيير اللغة */
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem("lang", lang);
+  applyLang();
+}
+
+/* تطبيق اللغة على النصوص */
+function applyLang() {
+  const isAr = currentLang === "ar";
+  document.body.style.direction = isAr ? "rtl" : "ltr";
+  document.documentElement.lang = isAr ? "ar" : "en";
+
+  // عناوين
+  document.getElementById("siteTitle").innerText = isAr ? "مودز هب" : "Mods Hub";
+  document.getElementById("uploadBtn").innerText = isAr ? "رفع مود" : "Upload Mod";
+  document.getElementById("settingsTitle").innerText = isAr ? "الإعدادات" : "Settings";
+  document.getElementById("settingsLangLabel").innerText = isAr ? "اختر اللغة:" : "Choose language:";
+
+  // فلاتر
+  document.getElementById("filtersTitle").innerText = isAr ? "الفلاتر" : "Filters";
+  document.getElementById("searchLabel").innerText = isAr ? "بحث بالاسم أو الوصف" : "Search by name or description";
+  document.getElementById("searchBox").placeholder = isAr ? "بحث..." : "Search...";
+  document.getElementById("versionLabel").innerText = isAr ? "إصدار اللعبة" : "Game version";
+  document.getElementById("loaderLabel").innerText = isAr ? "نوع المود" : "Loader";
+  document.getElementById("applyFiltersBtn").innerText = isAr ? "تطبيق الفلاتر" : "Apply filters";
+
+  // صفحة الرفع
+  document.getElementById("uploadTitle").innerText = isAr ? "رفع مود جديد" : "Upload new mod";
+  document.getElementById("modNameLabel").innerText = isAr ? "اسم المود" : "Mod name";
+  document.getElementById("modFileLabel").innerText = isAr ? "رابط ملف المود (URL)" : "Mod file URL";
+  document.getElementById("modImageLabel").innerText = isAr ? "رابط صورة المود (URL)" : "Mod image URL";
+  document.getElementById("modDescLabel").innerText = isAr ? "وصف المود" : "Mod description";
+  document.getElementById("modVersionLabel").innerText = isAr ? "إصدار اللعبة" : "Game version";
+  document.getElementById("modLoaderLabel").innerText = isAr ? "نوع المود" : "Loader";
+  document.getElementById("publishBtn").innerText = isAr ? "نشر المود" : "Publish mod";
+  document.getElementById("backBtn").innerText = isAr ? "رجوع" : "Back";
+
+  // نصوص الراديو
+  const loaderGroup = document.getElementById("loaderGroup").querySelectorAll("label");
+  loaderGroup[0].innerHTML = `<input type="radio" name="loader" value="" ${loaderGroup[0].querySelector('input').checked ? 'checked' : ''}> ${isAr ? 'الكل' : 'All'}`;
+  loaderGroup[1].innerHTML = `<input type="radio" name="loader" value="Forge" ${loaderGroup[1].querySelector('input').checked ? 'checked' : ''}> Forge`;
+  loaderGroup[2].innerHTML = `<input type="radio" name="loader" value="Fabric" ${loaderGroup[2].querySelector('input').checked ? 'checked' : ''}> Fabric`;
+
+  loadMods(); // إعادة رسم المودات مع اللغة
+}
+
+/* إظهار صفحة الرفع */
+function showUpload() {
+  document.getElementById("mainPage").style.display = "none";
+  document.getElementById("uploadPage").style.display = "block";
+}
+
+/* إظهار الصفحة الرئيسية */
+function showMain() {
+  document.getElementById("mainPage").style.display = "block";
+  document.getElementById("uploadPage").style.display = "none";
+}
+
+/* نشر مود جديد */
+function publishMod() {
+  const name = document.getElementById("modName").value.trim();
+  const fileUrl = document.getElementById("modFileUrl").value.trim();
+  const imgUrl = document.getElementById("modImageUrl").value.trim();
+  const desc = document.getElementById("modDesc").value.trim();
+  const version = document.getElementById("modVersion").value;
+  const loader = document.getElementById("modLoader").value;
+
+  if (!name || !fileUrl || !imgUrl || !desc) {
+    alert(currentLang === "ar"
+      ? "رجاءً املأ كل الحقول وأدخل الروابط"
+      : "Please fill all fields and enter URLs");
+    return;
+  }
+
+  const mod = {
+    name,
+    desc,
+    version,
+    loader,
+    url: fileUrl,
+    img: imgUrl,
+    date: new Date().toLocaleDateString()
+  };
+
+  const saved = localStorage.getItem("mods");
+  const mods = saved ? JSON.parse(saved) : [];
+  mods.unshift(mod);
+  localStorage.setItem("mods", JSON.stringify(mods));
+
+  // تنظيف الحقول
+  document.getElementById("modName").value = "";
+  document.getElementById("modFileUrl").value = "";
+  document.getElementById("modImageUrl").value = "";
+  document.getElementById("modDesc").value = "";
+
+  showMain();
+  loadMods();
+}
+
+/* تحميل وعرض المودات */
+function loadMods(filteredList) {
+  const saved = localStorage.getItem("mods");
+  const mods = saved ? JSON.parse(saved) : [];
+  const list = document.getElementById("modsList");
+
+  const data = filteredList || mods;
+
+  if (!data.length) {
+    list.innerHTML = `<p class="empty-msg">${
+      currentLang === "ar" ? "لا يوجد مودات بعد." : "No mods yet."
+    }</p>`;
+    return;
+  }
+
+  list.innerHTML = "";
+
+  data.forEach(m => {
+    list.innerHTML += `
+      <div class="mod-card">
+        <img src="${m.img}" alt="${m.name}">
+        <div class="mod-info">
+          <h2>${m.name}</h2>
+          <div class="badges">
+            <span class="badge badge-version">${m.version}</span>
+            <span class="badge ${m.loader === "Forge" ? "badge-forge" : "badge-fabric"}">${m.loader}</span>
+          </div>
+          <p style="font-size:13px;margin:4px 0 6px 0;">${m.desc}</p>
+          <div class="mod-meta">
+            ${currentLang === "ar" ? "تاريخ الرفع: " : "Uploaded: "} ${m.date}
+          </div>
+          <a class="download-btn" href="${m.url}" target="_blank">
+            ${currentLang === "ar" ? "تحميل" : "Download"}
+          </a>
+        </div>
+      </div>
+    `;
+  });
+}
+
+/* تطبيق الفلاتر */
+function applyFilters() {
+  const search = document.getElementById("searchBox").value.toLowerCase();
+  const version = document.getElementById("versionFilter").value;
+  const loaderInput = document.querySelector("input[name='loader']:checked");
+  const loader = loaderInput ? loaderInput.value : "";
+
+  const saved = localStorage.getItem("mods");
+  const mods = saved ? JSON.parse(saved) : [];
+
+  const filtered = mods.filter(m => {
+    const matchesSearch =
+      m.name.toLowerCase().includes(search) ||
+      m.desc.toLowerCase().includes(search);
+
+    const matchesVersion = version === "" || m.version === version;
+    const matchesLoader = loader === "" || m.loader === loader;
+
+    return matchesSearch && matchesVersion && matchesLoader;
+  });
+
+  loadMods(filtered);
+}
+
+/* ربط الفلاتر بالـ events */
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("searchBox").addEventListener("input", applyFilters);
+  document.getElementById("versionFilter").addEventListener("change", applyFilters);
+  document.getElementById("loaderGroup").addEventListener("change", applyFilters);
+
+  applyLang();   // يضبط اللغة + يعرض المودات
+  applyFilters(); // يطبق الفلاتر (حتى لو فاضية)
+});
+</script>
+
 </body>
 </html>
